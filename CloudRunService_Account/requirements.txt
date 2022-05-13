@@ -1,0 +1,6 @@
+Flask==0.12
+gunicorn==19.3.0
+Flask-Jsonpify
+requests
+grpcio
+google-cloud-firestore

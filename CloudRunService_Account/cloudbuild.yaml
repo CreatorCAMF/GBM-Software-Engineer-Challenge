@@ -1,0 +1,23 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      ["build", "-t", "gcr.io/${_PROJECT_ID}/service-accounts", "./CloudRunService_Account"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/${_PROJECT_ID}/service-accounts"]
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "service-accounts",
+        "--image",
+        "gcr.io/${_PROJECT_ID}/service-accounts",
+        "--region",
+        "us-east4",
+        "--platform",
+        "managed",
+        "--service-account",
+        "${_SERVICE_ACCOUNT}",
+      ]

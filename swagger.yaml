@@ -1,0 +1,170 @@
+swagger: "2.0"
+info:
+  description: "Solution"
+  version: "1.0.0"
+  title: "GBM Software Engineer Challenge"
+host: "petstore.swagger.io"
+basePath: "/v1"
+tags:
+- name: "Accounts"
+  description: "Account Operations"
+- name: "Orders"
+  description: "Orders Operations"
+schemes:
+- "https"
+paths:
+  /accounts:
+    post:
+      tags:
+      - "Accounts"
+      summary: "Create new account"
+      description: ""
+      operationId: "addAccount"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Account object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/AccountsRequest"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AccountsResponse"
+        "400":
+          description: "Invalid Order"
+          schema:
+            $ref: "#/definitions/AccountsErrorResponse"
+  /accounts/{id}/orders:
+    post:
+      tags:
+      - "Orders"
+      summary: "Buy or Sell Order(s)"
+      description: ""
+      operationId: "Buy/Sell Order"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Account id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "OrderRequest"
+        description: "Order object to buy/sell"
+        required: true
+        schema:
+          $ref: "#/definitions/OrderRequest"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/OrdersResponse"
+        "400":
+          description: "Invalid Order"
+          schema:
+            $ref: "#/definitions/OrdersResponse"
+definitions:
+  BusinessErrors:
+    type: "array"
+    items:
+      type: "string"
+    xml:
+      name: "BusinessErrors"
+  Issuer:
+    type: "object"
+    properties:
+      issuer_name:
+        type: "string"
+      total_shares:
+        type: "integer"
+        format: "int64"
+      share_price:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "Issuer"
+  CurrentBalance:
+    type: "object"
+    properties:
+      cash:
+        type: "integer"
+        format: "int64"
+      issuers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Issuer"
+    xml:
+      name: "Current_Balance"
+  OrdersResponse:
+    type: "object"
+    properties:
+      current_balance:
+        $ref: "#/definitions/CurrentBalance"
+      business_errors:
+        $ref: "#/definitions/BusinessErrors"
+    xml:
+      name: "Order_Response"
+  OrderRequest:
+    type: "object"
+    properties:
+      timestamp:
+        type: "integer"
+        format: "int64"
+      operation:
+        type: "string"
+        description: "buy / sell operation"
+        enum:
+        - "BUY"
+        - "SELL"
+      issuer_name:
+        type: "string"
+      total_shares:
+        type: "integer"
+        format: "int64"
+        minimum: 1
+      share_price:
+        type: "number"
+        format: "double"
+        minimum: 0
+    xml:
+      name: "Order_Request"      
+  AccountsRequest:
+    type: "object"
+    properties:
+      cash:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "Accounts_Request"
+  AccountsResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      cash:
+        type: "integer"
+        format: "int64"
+      issuers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Issuer"
+    xml:
+      name: "Accounts_Response"
+  AccountsErrorResponse:
+    type: "object"
+    properties:
+      business_errors:
+        $ref: "#/definitions/BusinessErrors"
+    xml:
+      name: "Accounts_Error_Response"

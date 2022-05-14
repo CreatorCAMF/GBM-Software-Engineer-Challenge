@@ -1,0 +1,2 @@
+class GBMException(Exception):
+    pass

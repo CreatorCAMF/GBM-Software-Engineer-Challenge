@@ -1,85 +1,46 @@
-import os
-import sys
-from flask import Flask, request
-from flask import jsonify
-import requests
-import json
-from datetime import datetime, timedelta
-from google.cloud import firestore
-import google.cloud.exceptions
 import constants
-
+from flask import Flask, request
+from exceptions import GBMException
+from accounts import createAccount
+from responses import error, sucess
 
 
 app = Flask(__name__)
 
-def getErrorResponse(error):
-    jsonRaw = {
-        'business_errors': ['{}'.format(error)]
-    }
+
+def getErrorResponse(message):
     jsonResponse = app.response_class(
-        response=json.dumps(jsonRaw),
+        response=error(message),
         status=400,
-        mimetype='application/json'
+        mimetype="application/json"
     )
     return jsonResponse
 
-def getSucesfullResponse(account):
-    jsonRaw = account
+
+def getSucesfullResponse(message):
     jsonResponse = app.response_class(
-        response=json.dumps(jsonRaw),
+        response=sucess(message),
         status=200,
-        mimetype='application/json'
+        mimetype="application/json"
     )
     return jsonResponse
-
-
-def getLastid():
-    id=0
-    try: 
-        db = firestore.Client()
-        accounts_ref = db.collection("accounts")
-        query = accounts_ref.order_by("id", direction=firestore.Query.DESCENDING).limit(1)
-        try:
-            account_result = query.get()
-            if len(account_result)>0:
-                account = account_result[0].to_dict()
-                account_id =account["id"]
-                id = account_id+1
-            return id
-        except google.cloud.exceptions.NotFound as error:
-            return getErrorResponse(constants.ERROR_ID)
-    except BaseException as error:
-        return getErrorResponse(constants.ERROR_DB)
-    
-
-def createAccount(cash):
-    try: 
-        db = firestore.Client()
-        account ={
-            "id": getLastid(),
-            "cash": cash
-        }
-        db.collection(u'accounts').add(account)
-        account["issuers"]=[]
-        return getSucesfullResponse(account)
-    except BaseException as error:
-        return getErrorResponse(constants.ERROR_DB)
 
 
 @app.route('/accounts', methods=['POST'])
 def consultaSaldo():
     try:             
         if(request.headers['Content-Type'] == 'application/json'):
-            content = json.loads(request.get_data())
+            content = request.json
             if content != None:
                 if "cash" in content:
                     if content["cash"]>0:
-                        return createAccount(content["cash"])
-                    return getErrorResponse(constants.ERROR_CASH)
-                return getErrorResponse(constants.ERROR_REQUEST)
-            return getErrorResponse(constants.ERROR_REQUEST)
-        return getErrorResponse(constants.ERROR_REQUEST)
+                        return getSucesfullResponse(createAccount(content["cash"]))
+                    raise GBMException(constants.ERROR_CASH)
+                raise GBMException(constants.ERROR_REQUEST)
+            raise GBMException(constants.ERROR_REQUEST)
+        raise GBMException(constants.ERROR_REQUEST)
+    except GBMException as error:
+        return getErrorResponse(error)
     except BaseException as error:
         return getErrorResponse(error)
 

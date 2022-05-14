@@ -92,11 +92,11 @@ To store the data we will use Firestore, the next steps will let you create the 
 
 ![Firestore](./Img/CrearColeccion.png)
 
-![Firestore](./Img/CrearColeccionAccounts.png)
+![Firestore](./Img/CrearColleccionAccounts.png)
 
-![Firestore](./Img/CrearColeccionIssuers.png)
+![Firestore](./Img/CrearColleccionIssuers.png)
 
-![Firestore](./Img/CrearColeccionOrders.png)
+![Firestore](./Img/CrearColleccionOrders.png)
 
 By default firestore add a document when you create the collection nevertheless those collections are not required, deleted them is opcional.
 
@@ -161,11 +161,11 @@ Other persons maybe let the challenge there but not me, to garantee security and
 
 ![Apigee](./Img/Diagram.png)
 
-The files to build the proxy are in the folder Apigee ![Apigee](./Apigee/GBM-Software-Engineer-Challenge.zip)
+The files to build the proxy are in the folder Apigee [Apigee](./Apigee/GBM-Software-Engineer-Challenge.zip)
 
-The postman collection to test the services is in  ![PostMan](./Postman/GBM.postman_collection.json)
+The postman collection to test the services is in  [PostMan](./Postman/GBM.postman_collection.json)
 
-The Swagger is in this repository or can be consulted in the [Web Portal] (https://tobyobito-eval-gbmaccount.apigee.io/docs/gbm/1/overview)
+The Swagger is in this repository or can be consulted in the [Web Portal](https://tobyobito-eval-gbmaccount.apigee.io/docs/gbm/1/overview)
 
 ![Swagger](./Img/Swagger.png)
 

@@ -1,5 +1,5 @@
-Flask==0.12
-gunicorn==19.3.0
+Flask
+gunicorn
 Flask-Jsonpify
 requests
 grpcio

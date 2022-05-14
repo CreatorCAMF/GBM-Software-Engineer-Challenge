@@ -3,12 +3,14 @@ import os
 import sys
 from flask import Flask, request
 from flask import jsonify
+import pytz
 import requests
 import json
 from datetime import datetime, timedelta
 from google.cloud import firestore
 import google.cloud.exceptions
 import constants
+import exception
 
 
 
@@ -243,12 +245,16 @@ def postOrders(id):
             if content != None:
                 if "timestamp" in content and "operation" in content and "issuer_name" in content and "total_shares" in content and "share_price" in content:
                     if content["operation"] in constants.OPERATION_TYPE and content["total_shares"]>0 and content["share_price"]>0:
-                        hour=datetime.datetime.fromtimestamp(content["timestamp"]).hour
-                        print(hour)
-                        if hour > 6 and hour<15:
-                            print("Empezamos")
-                            return buysellShare(id,content)
-                        return getErrorResponse(constants.ERROR_HOURS)  
+                        day =datetime.fromtimestamp(content["timestamp"]).day
+                        IST = pytz.timezone('America/Mexico_City')
+                        today = datetime.now(IST).day
+                        if day==today:
+                            hour=datetime.fromtimestamp(content["timestamp"]).hour
+                            if hour > 6 and hour<15:
+                                print("Empezamos")
+                                return buysellShare(id,content)
+                            return getErrorResponse(constants.ERROR_HOURS)  
+                        return getErrorResponse(constants.ERROR_DAYS)  
                     return getErrorResponse(constants.ERROR_CASH)
                 return getErrorResponse(constants.ERROR_REQUEST)
             return getErrorResponse(constants.ERROR_REQUEST)

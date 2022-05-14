@@ -41,8 +41,8 @@ def getLastid():
         accounts_ref = db.collection("accounts")
         query = accounts_ref.order_by("id", direction=firestore.Query.DESCENDING).limit(1)
         try:
-            account_result = [a for a in query.stream()]
-            if len(account_result) > 0:
+            account_result = query.get()
+            if len(account_result)>0:
                 account = account_result[0].to_dict()
                 account_id =account["id"]
                 id = account_id+1
@@ -85,5 +85,5 @@ def consultaSaldo():
 
         
 if __name__ == '__main__':
-     app.run(host='0.0.0.0', port=8081)
+     app.run(host='0.0.0.0', port=8080)
 

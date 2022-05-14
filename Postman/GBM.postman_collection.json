@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "dfa122ca-a3f0-4483-b6b6-3ce338bc2fac",
+		"name": "GBM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ApigeeAuth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "h6BbXBHLeEYp70yB",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "BFNGNqKiKMvijAGz2OAxzgfv4Zp7tWpA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://tobyobito-eval-test.apigee.net/oauth/client_credential/accesstoken?grant_type=client_credentials",
+					"protocol": "https",
+					"host": [
+						"tobyobito-eval-test",
+						"apigee",
+						"net"
+					],
+					"path": [
+						"oauth",
+						"client_credential",
+						"accesstoken"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ApigeeAccounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "91E5a9nprPo4Tbbpj6inxAPlHPiA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cash\": 100\r\n}"
+				},
+				"url": {
+					"raw": "https://tobyobito-eval-test.apigee.net/gbm-software-engineer-challenge/accounts",
+					"protocol": "https",
+					"host": [
+						"tobyobito-eval-test",
+						"apigee",
+						"net"
+					],
+					"path": [
+						"gbm-software-engineer-challenge",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ApigeeOrders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "91E5a9nprPo4Tbbpj6inxAPlHPiA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"timestamp\": 1652404748, \"operation\": \"BUY\", \"issuer_name\": \"TWIT\", \"total_shares\": 1, \"share_price\": 40}"
+				},
+				"url": {
+					"raw": "https://tobyobito-eval-test.apigee.net/gbm-software-engineer-challenge/accounts/0/orders",
+					"protocol": "https",
+					"host": [
+						"tobyobito-eval-test",
+						"apigee",
+						"net"
+					],
+					"path": [
+						"gbm-software-engineer-challenge",
+						"accounts",
+						"0",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"timestamp\": 1652404748, \"operation\": \"BUY\", \"issuer_name\": \"TWIT\", \"total_shares\": 1, \"share_price\": 40}"
+				},
+				"url": {
+					"raw": "https://service-orders-nfikyvc3jq-uk.a.run.app/accounts/0/orders",
+					"protocol": "https",
+					"host": [
+						"service-orders-nfikyvc3jq-uk",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"accounts",
+						"0",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accounts",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cash\": 1\r\n}"
+				},
+				"url": {
+					"raw": "https://service-accounts-nfikyvc3jq-uk.a.run.app/accounts",
+					"protocol": "https",
+					"host": [
+						"service-accounts-nfikyvc3jq-uk",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
